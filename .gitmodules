@@ -2,3 +2,6 @@
 	path = public
 	url = git@github.com:fgiorgetti/fgiorgetti.github.io.git
 	branch = main
+[submodule "themes/cactus"]
+	path = themes/cactus
+	url = https://github.com/monkeyWzr/hugo-theme-cactus.git
