@@ -7,7 +7,7 @@ draft: true
 # Hybrid Cloud using Skupper
 
 Skupper enables service communication, transparently,
-across multiple hybrid Kubernetes clusters.
+across multiple Kubernetes clusters.
 
 For more information about Skupper, as well as documentation and
 great examples, please visit [https://skupper.io/](https://skupper.io/).
@@ -18,9 +18,9 @@ Virtual Application Network (VAN) using Skupper.
 The standard documented approach for setting up a Skupper network, is
 through the use of its Command Line Interface (CLI) tool named `skupper`.
 
-Following the documentation and some examples, you will connect your hybrid
-cloud through a set of imperative commands that will help you setting everything
-up.
+Following its documentation and some examples, you will connect your
+cloud applications through a set of imperative commands that will help you
+setting everything up.
 
 This approach works just fine. But imagine if you have a set of services
 to be exposed and you have multiple sites to maintain.
@@ -34,7 +34,7 @@ thing to achieve.
 # GitOps using Argo CD
 
 The goal here is to demonstrate how you can setup a GitOps operator in your
-cluster, so that all your Hybrid Cloud, as well as your Virtual Application Network
+cluster, so that all your distribute application, as well as your Virtual Application Network
 can always be up to date with your desired state, or a single source of truth.
 
 Argo CD helps you maintaining the state of your Kubernetes resources in sync
