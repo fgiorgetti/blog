@@ -49,6 +49,8 @@ the latest version you have defined.
 If you don't yet have a running cluster, you can follow the steps below to
 download and run a local Minikube cluster in your machine.
 
+[Minikube installation instructions](https://minikube.sigs.k8s.io/docs/start/).
+
 # Installing your GitOps Operator
 
 The instructions below have been copied from the [Argo CD Getting Started Guide](https://argoproj.github.io/argo-cd/getting_started/).
