@@ -243,6 +243,28 @@ Trouble! HTTPConnectionPool(host='hello-world-backend', port=8080): Max retries 
 
 The error above is an expected error, since both namespaces do not communicate... yet.
 
+## Understanding what has just been deployed
+
+Inspect the deployment descriptor for the `hello-world-backend` application that
+has just been deployed to the `east` namespace.
+
+[/gitops/east/backend/01-deployment.yaml](https://github.com/fgiorgetti/skupper-example-hello-world/blob/0388bee7b89ba01402bc0edddcd99ec531b3a4e0/gitops/east/backend/01-deployment.yaml#L7-L9)
+
+Note that is contains two annotations:
+
+```
+    skupper.io/port: "8080"
+    skupper.io/proxy: "http"
+```
+
+The first one `skupper.io/port` defines the port of the deployment to be exposed
+and the second one `skupper.io/proxy` defines the protocol of the service being
+exposed.
+
+This is what you need to add to the resource you want to expose, so when Skupper
+is initialized in your namespace, it will create the respective service accordingly.
+The new service will be replicated to other sites automatically.
+
 # Declaring a Skupper network in your git repository
 
 First thing to do is ensure that we have Skupper running on both namespaces.
