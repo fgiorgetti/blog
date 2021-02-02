@@ -4,7 +4,7 @@ date: 2021-01-29T18:27:23-03:00
 draft: true
 ---
 
-# Hybrid Cloud using Skupper
+## Hybrid Cloud using Skupper
 
 Skupper enables service communication, transparently,
 across multiple Kubernetes clusters.
@@ -31,7 +31,7 @@ in shape, you will need to execute multiple commands or write a set of scripts
 so your environment is always at the expected state, and this is not a trivial
 thing to achieve.
 
-# GitOps using Argo CD
+## GitOps using Argo CD
 
 The goal here is to demonstrate how you can setup a GitOps operator in your
 cluster, so that all your distribute application, as well as your Virtual Application Network
@@ -44,14 +44,14 @@ Therefore all you need to do is keep your resources updated in your repository,
 adjusting them as needed, and Argo CD will guarantee your cluster has always
 the latest version you have defined.
 
-# Setting up a local cluster
+## Setting up a local cluster
 
 If you don't yet have a running cluster, you can follow the steps below to
 download and run a local Minikube cluster in your machine.
 
 [Minikube installation instructions](https://minikube.sigs.k8s.io/docs/start/).
 
-# Installing your GitOps Operator
+## Installing your GitOps Operator
 
 The instructions below have been copied from the [Argo CD Getting Started Guide](https://argoproj.github.io/argo-cd/getting_started/).
 
@@ -61,7 +61,7 @@ The instructions below have been copied from the [Argo CD Getting Started Guide]
 kubectl create namespace argocd
 ```
 
-2. Install Argo CD from Installation YAML 
+2. Install Argo CD from Installation YAML
 
 ```
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
@@ -106,7 +106,7 @@ You will see a page like:
     $ argocd login localhost:8080
     WARNING: server certificate had error: x509: certificate signed by unknown authority. Proceed insecurely (y/n)? y
     Username: admin
-    Password: 
+    Password:
     'admin' logged in successfully
     Context 'localhost:8080' updated
     ```
@@ -115,9 +115,9 @@ You will see a page like:
 
     ```
     $ argocd account update-password
-    *** Enter current password: 
-    *** Enter new password: 
-    *** Confirm new password: 
+    *** Enter current password:
+    *** Enter new password:
+    *** Confirm new password:
     Password updated
     Context 'localhost:8080' updated
     ```
@@ -141,7 +141,7 @@ Once we have these two components running, they will not be able to communicate.
 is just to make sure both components are running isolatedly on their own namespaces.
 
 
-# Creating an Argo CD application to the Frontend service
+## Argo CD applications
 
 An Argo CD application defines the `source` (Git Repository and path) and the `destination` (A Kubernetes cluster / namespace).
 Basically Argo CD will try to keep the resources you have defined at your `source` synchronized with your `destination`.
@@ -155,6 +155,18 @@ There are multiple ways to define an Argo CD application. For example:
 To keep things simple, we are going to use the **Argo CD GUI** to create the GitOps applications.
 
 ***Important:** In a real environment, you might consider defining an "App of apps". For more information please visit [https://argoproj.github.io/argo-cd/operator-manual/cluster-bootstrapping/#app-of-apps-pattern](https://argoproj.github.io/argo-cd/operator-manual/cluster-bootstrapping/#app-of-apps-pattern)***
+
+## Creating an Argo CD application to the Frontend service
+
+The Frontend service application is defined at this [particular GIT Repository](https://github.com/fgiorgetti/skupper-example-hello-world/tree/gitops)
+at the **`gitops`** branch.
+
+Go the the repository and explore the contents of **`/gitops/gitops/west/frontend`** directory.
+
+The application itself is a simple HTTP application that attempts to invoke a hello world
+API that is supposed to run at the east namespace.
+
+To create it in Argo CD, follow these steps:
 
 1. At the Argo CD console, click "+ NEW APP"
 
@@ -175,7 +187,40 @@ To keep things simple, we are going to use the **Argo CD GUI** to create the Git
       1. Namespace: **west**
 1. Click `CREATE`.
 
-# Creating an Argo CD application to the Backend service
+## Creating an Argo CD application to the Backend service
+
+The Backend service application is defined at this [particular GIT Repository](https://github.com/fgiorgetti/skupper-example-hello-world/tree/gitops)
+at the **`gitops`** branch.
+
+Go the the repository and explore the contents of **`/gitops/gitops/east/backend`** directory.
+
+This backend application provides a **`/api/hello`** endpoint that will be invoked by
+the frontend application running at the `west` namespace.
+
+### Understanding what is being deployed
+
+Inspect the deployment descriptor for the `hello-world-backend` application that
+is going to be deployed to the `east` namespace.
+
+[/gitops/east/backend/01-deployment.yaml](https://github.com/fgiorgetti/skupper-example-hello-world/blob/0388bee7b89ba01402bc0edddcd99ec531b3a4e0/gitops/east/backend/01-deployment.yaml#L7-L9)
+
+Note that is contains two annotations:
+
+```
+    skupper.io/port: "8080"
+    skupper.io/proxy: "http"
+```
+
+The first one `skupper.io/port` defines the port of the deployment to be exposed
+and the second one `skupper.io/proxy` defines the protocol of the service being
+exposed.
+
+This is what you need to add to the resource you want to expose, so when Skupper
+is initialized in your namespace, it will create the respective service accordingly.
+The new service will be replicated to other sites automatically.
+
+
+To create it in Argo CD, follow these steps:
 
 1. Back to the Argo CD console, click "+ NEW APP" again
 1. Enter the new application information:
@@ -194,7 +239,7 @@ To keep things simple, we are going to use the **Argo CD GUI** to create the Git
       1. Namespace: **east**
 1. Click `CREATE`.
 
-# Validate applications are running
+## Validate applications are running
 
 Verify the artifacts that have been created on both namespaces.
 
@@ -243,34 +288,12 @@ Trouble! HTTPConnectionPool(host='hello-world-backend', port=8080): Max retries 
 
 The error above is an expected error, since both namespaces do not communicate... yet.
 
-## Understanding what has just been deployed
-
-Inspect the deployment descriptor for the `hello-world-backend` application that
-has just been deployed to the `east` namespace.
-
-[/gitops/east/backend/01-deployment.yaml](https://github.com/fgiorgetti/skupper-example-hello-world/blob/0388bee7b89ba01402bc0edddcd99ec531b3a4e0/gitops/east/backend/01-deployment.yaml#L7-L9)
-
-Note that is contains two annotations:
-
-```
-    skupper.io/port: "8080"
-    skupper.io/proxy: "http"
-```
-
-The first one `skupper.io/port` defines the port of the deployment to be exposed
-and the second one `skupper.io/proxy` defines the protocol of the service being
-exposed.
-
-This is what you need to add to the resource you want to expose, so when Skupper
-is initialized in your namespace, it will create the respective service accordingly.
-The new service will be replicated to other sites automatically.
-
-# Declaring a Skupper network in your git repository
+## Declaring a Skupper network in your git repository
 
 First thing to do is ensure that we have Skupper running on both namespaces.
 To do that, lets define another two Argo CD applications (one for each namespace).
 
-## Creating a Skupper application on the west namespace
+### Creating a Skupper application on the west namespace
 
 1. At the Argo CD console, click "+ NEW APP"
 1. Enter the new application information:
@@ -290,7 +313,7 @@ To do that, lets define another two Argo CD applications (one for each namespace
 1. Click `CREATE`.
 
 
-## Creating a Skupper application on the east namespace
+### Creating a Skupper application on the east namespace
 
 1. Back to the Argo CD console, click "+ NEW APP"
 1. Enter the new application information:
@@ -309,7 +332,7 @@ To do that, lets define another two Argo CD applications (one for each namespace
       1. Namespace: **east**
 1. Click `CREATE`.
 
-## Verifying the Skupper network
+### Verifying the Skupper network
 
 Let's verify Skupper is running properly in your namespaces. But first, you might need to
 download the `skupper` tool. Please visit the [Skupper releases page](https://github.com/skupperproject/skupper/releases)
@@ -318,7 +341,7 @@ and download the client for your operating system.
 *Make sure to install it as `skupper` and make sure it is available in your PATH.*
 
 
-### Validating pods
+#### Validating pods
 
 ```
 $ kubectl -n west get pods
@@ -329,7 +352,7 @@ skupper-service-controller-b894b6554-gt64t   1/1     Running   0          19m
 skupper-site-controller-fc56c7686-wtwwp      1/1     Running   0          19m
 ```
 
-### Validating skupper status
+#### Validating skupper status
 
 ```
 $ skupper -n west status
@@ -338,7 +361,7 @@ Skupper is enabled for namespace "west" with site name "skupper-west" in interio
 
 *Repeat the same validation using the **east** namespace.*
 
-## Creating a connection token to the west namespace
+### Creating a connection token to the west namespace
 
 Next we need to create our Virtual Application Network (VAN) using Skupper
 to allow communication with exposed services from all namespaces.
@@ -356,7 +379,7 @@ namespace. So it must be stored carefully.
 In this demo, we are not storing tokens in our Git Repository, but if you plan
 to do so, make sure you are using `git crypt` to avoid exposing your certificates.
 
-## Connecting east namespace to the west namespace
+### Connecting east namespace to the west namespace
 
 As said above, we do not have the token in our sample Git Repository, so we must
 manually connect the `east` namespace to the `west` namespace.
@@ -367,7 +390,7 @@ To do that, run:
 $ skupper -n east link create /tmp/west.token.yaml
 ```
 
-## Verify Skupper network is connected
+### Verify Skupper network is connected
 
 
 After you have linked the two sites, you can monitor your network to ensure Skupper
@@ -391,7 +414,7 @@ Skupper is enabled for namespace "east" with site name "skupper-east" in interio
 Now our Virtual Application Network is connected and the `hello-world-backend` deployment
 has been exposed as a service and it is available on both namespaces.
 
-# Testing the frontend application
+## Testing the frontend application
 
 To test the frontend application, lets run the port-forward to the `hello-world-frontend` deployment
 one more time.
