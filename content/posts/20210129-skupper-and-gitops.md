@@ -295,7 +295,7 @@ The error above is an expected error, since both namespaces do not communicate..
 First thing to do is ensure that we have Skupper running on both namespaces.
 To do that, lets define another two Argo CD applications (one for each namespace).
 
-### Creating a Skupper application on the west namespace
+### Creating a Skupper site on the west namespace
 
 1. At the Argo CD console, click "+ NEW APP"
 1. Enter the new application information:
@@ -315,7 +315,7 @@ To do that, lets define another two Argo CD applications (one for each namespace
 1. Click `CREATE`.
 
 
-### Creating a Skupper application on the east namespace
+### Creating a Skupper site on the east namespace
 
 1. Back to the Argo CD console, click "+ NEW APP"
 1. Enter the new application information:
