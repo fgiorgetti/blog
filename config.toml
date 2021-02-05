@@ -31,6 +31,10 @@ weight = 3
     ordered = false
     startLevel = 2
 
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
 [params]
 
   colortheme = "dark" # dark, light, white, or classic
