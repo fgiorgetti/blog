@@ -33,6 +33,11 @@ in shape, you will need to execute multiple commands or write a set of scripts
 so your environment is always at the expected state, and this is not a trivial
 thing to achieve.
 
+Skupper provides a [Getting started](https://skupper.io/start/index.html) which shows how to connect two clusters using
+the CLI. They also document connecting two clusters in Configuring Skupper sites using YAML.
+
+In order to keep this tutorial simple, we will connect two namespaces in the same cluster while showing you how to use Argo CD.
+
 ## GitOps using Argo CD
 
 The goal here is to demonstrate how you can setup a GitOps operator in your
@@ -45,6 +50,10 @@ with a Git Repository (your source of truth).
 Therefore all you need to do is keep your resources updated in your repository,
 adjusting them as needed, and Argo CD will guarantee your cluster has always
 the latest version you have defined.
+
+In this tutorial, I am using a personal git repository. If you want to make changes to the resources used in this
+example to observe Argo CD syncing it with your cluster, feel free to fork the [sample repository](https://github.com/fgiorgetti/skupper-example-hello-world.git) (branch: **gitops**) and update
+the GIT url used in the upcoming sections.
 
 ## Setting up a local cluster
 
