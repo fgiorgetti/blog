@@ -1,7 +1,7 @@
 ---
 title: "Maintaining your Skupper Virtual Application Network with Gitops"
 date: 2021-01-29T18:27:23-03:00
-draft: true
+draft: false
 categories: [tutorial]
 tags: [skupper, gitops, argocd]
 ---
