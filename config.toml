@@ -3,7 +3,7 @@ languageCode = "en-us"
 title = "Fernando Giorgetti - about me"
 theme = "cactus"
 copyright = "Fernando Giorgetti" # cactus will use title if copyright is not set
-disqusShortname = "example" # Used when comments is enabled. Cactus will use site title if not set
+disqusShortname = "giorgetti" # Used when comments is enabled. Cactus will use site title if not set
 # googleAnalytics = "UA-1234-5"
 
 
@@ -36,8 +36,12 @@ weight = 3
   tag = "tags"
 
 [params]
+  dateform        = "Jan 2, 2006"
+  dateformShort   = "Jan 2"
+  dateformNum     = "2006-01-02"
+  dateformNumTime = "2006-01-02 15:04 -0700"
 
-  colortheme = "dark" # dark, light, white, or classic
+  colortheme = "white" # dark, light, white, or classic
   rss = true # generate rss feed. default value is false
   googleAnalyticsAsync = true # use asynchronous tracking. Synchronous tracking by default
 
