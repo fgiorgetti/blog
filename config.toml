@@ -4,8 +4,8 @@ title = "Fernando Giorgetti - about me"
 theme = "cactus"
 copyright = "Fernando Giorgetti" # cactus will use title if copyright is not set
 disqusShortname = "giorgetti" # Used when comments is enabled. Cactus will use site title if not set
-forcesyncstatic = true
-ignorecache = true
+#forcesyncstatic = true
+#ignorecache = true
 
 # googleAnalytics = "UA-1234-5"
 
