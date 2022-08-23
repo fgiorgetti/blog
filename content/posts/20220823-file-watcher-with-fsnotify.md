@@ -1,7 +1,7 @@
 ---
 title: "File Watcher With Fsnotify"
 date: 2022-08-23T00:21:47-03:00
-draft: true
+draft: false
 ---
 
 
