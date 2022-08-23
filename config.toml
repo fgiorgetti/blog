@@ -37,12 +37,16 @@ weight = 3
 [taxonomies]
   category = "categories"
   tag = "tags"
+  series = "series"
+
 
 [params]
   dateform        = "Jan 2, 2006"
   dateformShort   = "Jan 2"
   dateformNum     = "2006-01-02"
   dateformNumTime = "2006-01-02 15:04 -0700"
+
+  homeSubtitle = "Software engineering"
 
   colortheme = "white" # dark, light, white, or classic
   rss = true # generate rss feed. default value is false
@@ -72,6 +76,25 @@ weight = 3
   [[params.social]]
     name = "github"
     link = "https://github.com/fgiorgetti"
+    url = "https://github.com/fgiorgetti"
   [[params.social]]
     name = "linkedin"
     link = "https://www.linkedin.com/in/fernandogiorgetti"
+    url = "https://www.linkedin.com/in/fernandogiorgetti"
+
+[languages]
+  [languages.en]
+    title = "Fernando Giorgetti - about me"
+    subtitle = "Software engineering topics"
+    keywords = "software"
+    copyright = 'Fernando Giorgetti'
+    readOtherPosts = "Read other posts"
+
+    [languages.en.params.logo]
+      logoText = "giorgetti.com.br"
+      logoHomeLink = "/"
+    # or
+    #
+    # path = "/img/your-example-logo.svg"
+    # alt = "Your example logo alt text"
+
