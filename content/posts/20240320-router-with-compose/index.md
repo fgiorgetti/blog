@@ -17,12 +17,12 @@ Here I am using a two routers network, named west and east.
 The west router has an inter-router link (secured with TLS) defined to connect with the
 east one (using skupper-router-east hostname).
 
-All the configuration files, sample certificates and compose files can be downloaded by clicking
+All the configuration, sample certificates and compose files can be downloaded by clicking
 the following link: [Example files (tarball)](example.tar.gz).
 
-Once you extract the tarball, you will fine a new directory named example which contains
-the `compose.yaml` file, as well as all the configuration needed by the two routers under
-`./example/west` and `./example/east`.
+Once you extract the tarball, you will find a new directory named example which contains
+the `compose.yaml` file, as well as all the directories storing the configuration needed by
+the two routers, under: `./example/west` and `./example/east`.
 
 This `compose.yaml` file, works with both docker and podman.
 
