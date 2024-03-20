@@ -26,7 +26,7 @@ filename=${@:$OPTIND:1}
 
 # Defining the definitive filename to use
 if $create_dir; then
-    target_dir+="/${filename}"
+    target_dir+="/`date +%Y%m%d-`${filename}"
     final_name="${target_dir}/index.md"
 else
     final_name="${target_dir}/`date +%Y%m%d-`${filename}.md"
