@@ -82,11 +82,11 @@ choice.
 You can download and evaluate each of the approaches through the following links.
 These samples can be run using `docker compose` or `podman-compose`.
 
-[1. Netfilter](netfilter.tar.gz)
+[1. Netfilter](resources/netfilter.tar.gz)
 
-[2. Edge-Router](edgerouter.tar.gz)
+[2. Edge-Router](resources/edgerouter.tar.gz)
 
-[3. HAProxy](haproxy.tar.gz)
+[3. HAProxy](resources/haproxy.tar.gz)
 
 ## Validating each scenario
 
