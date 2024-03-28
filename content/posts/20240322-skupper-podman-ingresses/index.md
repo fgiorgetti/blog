@@ -21,35 +21,78 @@ tags:
 
 ## Introduction
 
-In order to evaluate some strategies for dealing with service ingresses,
-when running the skupper-router with Podman or Docker, I have used the simple
-scenario below as the foundation for this study:
+In order to evaluate some strategies for dealing with ingresses using a stable
+name resolution within a container network (Podman or Docker), I have used the
+following scenario as the foundation for this study:
 
 ![](images/scenario.png)
 
-The router component is connect to the host network, which avoids restarts
-when extra ports need to be bound.
+In the following sections, I will describe each component in more detail.
+
+Artifacts for each strategy are also available and they can be easily executed
+using _podman-compose_ or _docker compose_.
+
+### Service Proxies
+
+The service proxies are the main objects to be explored here.
+
+Each service proxy is connected to a container network, and so they have a stable
+name and an individual IP address within that network. With that, each proxy container
+could bind port 8080 (as an example), because they'd have different IP addresses.
+
+And this is the reason why we do not have a single proxy container with multiple
+network aliases. Having multiple network aliases would solve the stable name issue,
+but wouldn't allow two distinct names to bind the same port with different targets.
+
+That being said, each proxy container will be responsible for redirecting incoming traffic
+reaching its port(s) to the _skupper-router_ (explained later).
+
+In this study we will evaluate different approaches that can be used to redirect
+incoming traffic reaching the service proxies to the _skupper-router_.
+
+Basically all the scenarios will use different approaches to redirect traffic to the listeners
+exposed by the _skupper_router_, except for the _Edge-Router_ scenario, in which the service proxies
+are edge-routers connected to the _skupper-router_ and they expose a _TCP Listener_ themselves.
+These _TCP Listeners_ take the incoming traffic through the _skupper-router_ via its
+_Edge Link_ with _skupper-router_, so the _TCP Listeners_ exposed by the _skupper-router_
+are not used.
+
+### Skupper Router
+
+The _skupper-router_ component is connect to the host network, exposing TCP listeners
+on ports _8080_ and _5201_, which have related TCP connectors reaching the _workloads_,
+that are also running as containers, exposing their ports to the host network.
+
+It is important to say that this is not an appropriate scenario for Skupper itself, as 
+Skupper's purpose is to interconnect services distributed through the hybrid cloud, but
+we are using it here to prove that we can get traffic from a service proxy redirected to
+the _skupper-router_ and forwarded by the router to the respective _workloads_.
+
+In the _Edge-Router_ scenario, the _skupper-router_ also exposes an _**Edge**_ listener
+through port 45671. This listener is used by the _service proxies_ only in this scenario.
+
+### Workloads
 
 In this topology we have two workloads.
 
 * _my-service_ - nginx server
 * _my-tcp-service_ - iperf3 server
 
-They are exposed through the _skupper-router_ container, which is binding
-ports _8080_ (for nginx) and _5201_ (for iperf3) on the host machine.
+These workloads also run as containers and their ports exposed through the host machine and
+mapping incoming traffic to the appropriate port used by the workload itself, here is the mapping:
 
-Other two containers named respectively _my-service_ and _my-tcp-service_ (for
-illustration only) are also created and they are connected to the sample_sample1 (bridge) network,
-in order to provide stable name resolution to other containers connected to that
-same network. But in theory they could be connected to multiple bridge networks.
+* _my-service_ - Host port 8888 to container port 8080
+* _my-tcp-service_ - Host port 4201 to container port 5201
 
-These extra containers are also listening to the same ports (8080 and 5201) and
-their names can be resolved as _my-service_ and _my-tcp-service_ respectively.
+The _skupper-router_ container has two TCP Connectors, one for each port, and the connectors
+use the following configuration:
 
-To enable traffic to flow through these containers that are providing name resolution inside
-the container network, I have explored four initial scenarios, described in more detail below.
+| Target host          | Target port | Routing key (address) |
+| -------------------- | ----------- | --------------------- |
+| host.docker.internal | 8888        | my-service:8080       |
+| host.docker.internal | 4201        | my-tcp-service:5201   |
 
-## Scenarios
+## Service proxy scenarios
 
 1. Netfilter / iptables
 2. Edge-router
@@ -68,11 +111,14 @@ to be the fastest choice with minimal resource utilization, compared to the othe
 ### 2. Edge-router
 
 An edge-router can also be used, as we just need to expose a tcpListener on each container
-with the respective router address that will reach the target workloads.
+with the respective routing key (address) that will reach the target workloads.
 
-This approach has an extra benefit (to be evaluated) as you don't need to expose the service to the
-container's host network (no listener needed on the _skupper-router_), because it does not need a target
+This approach has an extra benefit (to be evaluated) as you don't need to expose the workloads to the
+container's host network (no TCP listener needed on the _skupper-router_), because it does not need a target
 IP and Port.
+
+Each service proxy runs as an edge-router and has an edge link to the _skupper-router_, which
+targets host: host.docker.internal and port 45671.
 
 ### 3. HAProxy
 
@@ -165,11 +211,11 @@ ${CONTAINER} run --rm --network sample_sample1 quay.io/skupper/iperf3 -c my-tcp-
 
 ## Conclusion
 
-If requiring a host's IP/Port to be exposed is not a problem, the Netfilter approach
-seems like the best fit.
+If requiring a host's IP/Port to be exposed is not a problem, the Netfilter/iptables approach
+seems like the best fit as it requires few resources and seems to have best throughput.
 
-But in case exposing only into the container's network without exposing it through the host
-is a requirement, then Edge-router is the only choice that can be used.
+But in case exposing workloads only into the container's network, without exposing them through the
+host's IP and Port, is a mandatory thing, then Edge-router is the only choice that can be used.
 
 As an upcoming activity, it would be really interesting to do a performance analysis, comparing all the
 approaches mentioned here using both TCP (iperf3) and HTTP traffic.
