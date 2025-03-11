@@ -179,7 +179,7 @@ appropriate Kubernetes cluster.
 
 If you want to clean things up, you can delete the: `west`, `east` and `skupper` namespaces.
 
-```
+```bash
 kubectl delete namespace west east skupper
 ```
 
