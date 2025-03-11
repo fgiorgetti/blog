@@ -84,15 +84,17 @@ weight = 3
 
 [languages]
   [languages.en]
-    title = "Fernando Giorgetti - about me"
+    title = "Fernando Giorgetti - blog"
+    copyright = 'Fernando Giorgetti'
+
+  [languages.en.params]
     subtitle = "Software engineering topics"
     keywords = "software"
-    copyright = 'Fernando Giorgetti'
     readOtherPosts = "Read other posts"
 
-    [languages.en.params.logo]
-      logoText = "giorgetti.com.br"
-      logoHomeLink = "/"
+  [languages.en.params.logo]
+    logoText = "giorgetti.com.br"
+    logoHomeLink = "/"
     # or
     #
     # path = "/img/your-example-logo.svg"
