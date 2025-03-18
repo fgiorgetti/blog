@@ -1,7 +1,7 @@
 ---
 title: "Decentralizing Skupper network setup with Vault and Ansible"
 date: 2025-03-17T22:20:50-03:00
-draft: false
+draft: true
 toc: true
 tags:
   - skupper
@@ -139,14 +139,14 @@ vault token create -display-name=podman -policy=public-read -format=json | jq -r
 
 Download the Ansible playbook files below:
 
-* [playbook-public.yaml](resources/ansible/playbook-public.yaml)
-* [playbook-private.yaml](resources/ansible/playbook-private.yaml)
-* [playbook-podman.yaml](resources/ansible/playbook-podman.yaml)
+* [playbook-public.yaml](https://raw.githubusercontent.com/fgiorgetti/fgiorgetti.github.io/refs/heads/main/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-public.yaml)
+* [playbook-private.yaml](https://raw.githubusercontent.com/fgiorgetti/fgiorgetti.github.io/refs/heads/main/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-private.yaml)
+* [playbook-podman.yaml](https://raw.githubusercontent.com/fgiorgetti/fgiorgetti.github.io/refs/heads/main/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-podman.yaml)
 
 
 #### Public site
 
-Playbook: [playbook-public.yaml](resources/ansible/playbook-public.yaml).
+Playbook: [playbook-public.yaml](https://raw.githubusercontent.com/fgiorgetti/fgiorgetti.github.io/refs/heads/main/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-public.yaml).
 
 1. This initial task ensures that the Skupper V2 Controller is running in the `skupper` namespace.
    It uses the latest development version of Skupper (v2-dev-release).
@@ -169,6 +169,8 @@ Playbook: [playbook-public.yaml](resources/ansible/playbook-public.yaml).
 
 #### Private site
 
+Playbook: [playbook-private.yaml](https://raw.githubusercontent.com/fgiorgetti/fgiorgetti.github.io/refs/heads/main/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-private.yaml).
+
 1. The initial task, is the same as shown in the `playbook-public.yaml`. It ensures that the Skupper V2 Controller
    is running in the `skupper` namespace.
 
@@ -188,6 +190,8 @@ Playbook: [playbook-public.yaml](resources/ansible/playbook-public.yaml).
 {{< coderange start=24 lines=4 language="yaml" source="/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-private.yaml" options="anchorLineNos=true, lineAnchors=public, linenos=true, lineNoStart=25, lineNumbersInTable=true" >}}
 
 #### Podman site
+
+Playbook: [playbook-podman.yaml](https://raw.githubusercontent.com/fgiorgetti/fgiorgetti.github.io/refs/heads/main/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-podman.yaml).
 
 1. The first task runs the Database as a podman container
 
