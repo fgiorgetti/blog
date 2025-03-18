@@ -160,12 +160,12 @@ Playbook: [playbook-public.yaml](resources/ansible/playbook-public.yaml).
 
 3. A Skupper Link is then generated and stored in a host variable named `public`.
 
-{{< coderange start=17 lines=6 language="yaml" source="/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-public.yaml" options="anchorLineNos=true, lineAnchors=public, linenos=true, lineNoStart=18, lineNumbersInTable=true" >}}
+{{< coderange start=16 lines=6 language="yaml" source="/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-public.yaml" options="anchorLineNos=true, lineAnchors=public, linenos=true, lineNoStart=17, lineNumbersInTable=true" >}}
 
 4. Finally we store the Skupper Link generated in the previous task into Hashicorp Vault,
    and we do that using the Vault Token (credentials) provided through Ansible variable `vault_token`.
 
-{{< coderange start=24 lines=9 language="yaml" source="/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-public.yaml" options="anchorLineNos=true, lineAnchors=public, linenos=true, lineNoStart=25, lineNumbersInTable=true" >}}
+{{< coderange start=23 lines=9 language="yaml" source="/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-public.yaml" options="anchorLineNos=true, lineAnchors=public, linenos=true, lineNoStart=24, lineNumbersInTable=true" >}}
 
 #### Private site
 
@@ -177,15 +177,15 @@ Playbook: [playbook-public.yaml](resources/ansible/playbook-public.yaml).
 2. The following task creates all the resources needed to have the Payment Processor microservice running in the `private`
    namespace, as well as all the Skupper resources needed (Site and Connector).
 
-{{< coderange start=10 lines=6 language="yaml" source="/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-private.yaml" options="anchorLineNos=true, lineAnchors=public, linenos=true, lineNoStart=11, lineNumbersInTable=true" >}}
+{{< coderange start=10 lines=5 language="yaml" source="/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-private.yaml" options="anchorLineNos=true, lineAnchors=public, linenos=true, lineNoStart=11, lineNumbersInTable=true" >}}
 
 3. The Skupper Link is consumed from Vault using the private Vault Token into a host variable named `public`.
 
-{{< coderange start=17 lines=7 language="yaml" source="/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-private.yaml" options="anchorLineNos=true, lineAnchors=public, linenos=true, lineNoStart=18, lineNumbersInTable=true" >}}
+{{< coderange start=16 lines=7 language="yaml" source="/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-private.yaml" options="anchorLineNos=true, lineAnchors=public, linenos=true, lineNoStart=17, lineNumbersInTable=true" >}}
 
 4. Last task is to create the Skupper Link as a resource into the `private` namespace.
 
-{{< coderange start=25 lines=4 language="yaml" source="/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-private.yaml" options="anchorLineNos=true, lineAnchors=public, linenos=true, lineNoStart=26, lineNumbersInTable=true" >}}
+{{< coderange start=24 lines=4 language="yaml" source="/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-private.yaml" options="anchorLineNos=true, lineAnchors=public, linenos=true, lineNoStart=25, lineNumbersInTable=true" >}}
 
 #### Podman site
 
@@ -195,20 +195,20 @@ Playbook: [playbook-public.yaml](resources/ansible/playbook-public.yaml).
 
 2. Next we create the Skupper resources using `podman` as the platform
 
-{{< coderange start=14 lines=6 language="yaml" source="/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-podman.yaml" options="anchorLineNos=true, lineAnchors=public, linenos=true, lineNoStart=15, lineNumbersInTable=true" >}}
+{{< coderange start=14 lines=5 language="yaml" source="/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-podman.yaml" options="anchorLineNos=true, lineAnchors=public, linenos=true, lineNoStart=15, lineNumbersInTable=true" >}}
 
 3. Skupper Link is consumed from Vault using the podman Vault Token into a host variable named `public`.
 
-{{< coderange start=21 lines=7 language="yaml" source="/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-podman.yaml" options="anchorLineNos=true, lineAnchors=public, linenos=true, lineNoStart=22, lineNumbersInTable=true" >}}
+{{< coderange start=20 lines=7 language="yaml" source="/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-podman.yaml" options="anchorLineNos=true, lineAnchors=public, linenos=true, lineNoStart=21, lineNumbersInTable=true" >}}
 
 4. The consumed Skupper Link is created as a resource into the podman site definition.
 
-{{< coderange start=29 lines=4 language="yaml" source="/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-podman.yaml" options="anchorLineNos=true, lineAnchors=public, linenos=true, lineNoStart=30, lineNumbersInTable=true" >}}
+{{< coderange start=28 lines=4 language="yaml" source="/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-podman.yaml" options="anchorLineNos=true, lineAnchors=public, linenos=true, lineNoStart=29, lineNumbersInTable=true" >}}
 
 5. Finally the last task to perform is the Podman site initialization. Differently than Kubernetes sites, Non-kubernetes
    sites must be statically initialized once all resources are placed.
 
-{{< coderange start=34 lines=4 language="yaml" source="/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-podman.yaml" options="anchorLineNos=true, lineAnchors=public, linenos=true, lineNoStart=35, lineNumbersInTable=true" >}}
+{{< coderange start=33 lines=4 language="yaml" source="/posts/20250311-skupper-ansible-vault/resources/ansible/playbook-podman.yaml" options="anchorLineNos=true, lineAnchors=public, linenos=true, lineNoStart=34, lineNumbersInTable=true" >}}
 
 ### Creating each site
 
