@@ -1,7 +1,7 @@
 ---
 title: "Decentralizing Skupper network setup with Vault and Ansible"
 date: 2025-03-17T22:20:50-03:00
-draft: true
+draft: false
 toc: true
 tags:
   - skupper
