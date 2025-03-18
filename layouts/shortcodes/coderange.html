@@ -1,0 +1,13 @@
+{{ $language := .Get "language" }}
+{{ $source := .Get "source" }}
+{{ $start := .Get "start" }}
+{{ $lines := .Get "lines" }}
+{{ $options := .Get "options" }}
+
+{{ $content := readFile $source }}
+{{ $content := split $content "\n" }}
+{{ $content := first $lines (after $start $content) }}
+{{ $content := delimit $content "\n" }}
+{{ with $content }}
+  {{ highlight (trim . "\n\r") $language $options }}
+{{ end }}

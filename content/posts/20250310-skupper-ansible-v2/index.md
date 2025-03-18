@@ -7,7 +7,6 @@ images:
 tags:
   - skupper
   - kubernetes
-  - podman
   - ansible
 ---
 
